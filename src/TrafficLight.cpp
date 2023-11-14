@@ -72,9 +72,13 @@ void TrafficLight::cycleThroughPhases()
     int cycleTime = rand() % 2 ? 4 : 6;
     while(1) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        // auto elapsedTime = std::chrono::high_resolution_clock::now() - startTime;
-        if ((std::chrono::high_resolution_clock::now() - startTime).count() > cycleTime) {
-            _currentPhase = (_currentPhase + 1) % 2 ? TrafficLightPhase::red : TrafficLightPhase::green;
+        auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - startTime);
+        if (elapsedTime.count() > cycleTime) {
+            if (_currentPhase == TrafficLightPhase::red) {
+                _currentPhase = TrafficLightPhase::green;
+            } else {
+                _currentPhase = TrafficLightPhase::red;
+            }
             startTime = std::chrono::high_resolution_clock::now();
             _messages.send(std::move(_currentPhase));
         }
