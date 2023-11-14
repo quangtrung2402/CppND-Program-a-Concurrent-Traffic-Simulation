@@ -35,7 +35,7 @@ class TrafficLight : public TrafficObject
 public:
     // constructor / desctructor
     TrafficLight();
-    ~TrafficLight();
+    ~TrafficLight() {}
 
     // getters / setters
     
